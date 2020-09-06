@@ -1,11 +1,27 @@
-const Ship = require('../src/Ship.js');
+const Ship = require('../src/Ship.js')
+const Port = require('../src/Port.js')
 
 describe('constructor', () => {
     test('returns an object', () => {
-      expect(new Ship('Alicia-Rose')).toBeInstanceOf(Object);
+      expect(new Ship()).toBeInstanceOf(Object);
     });
     test('it has a startPoint', () => {
-        const ship = new Ship('Amsterdam')
-        expect(ship.startingPort).toBe('Amsterdam')
+        const port = new Port('Dover')
+        const ship = new Ship(port);
+        expect(ship.currentPort).toBe(port);
     })
-  });
+    test('it can set sail', () => {
+      const port = new Port('Dover');
+      const ship = new Ship(port);
+      ship.setSail();
+      expect(ship.currentPort).toBe(false);
+    });
+    test('Can dock at different port', () => {
+      const dover = new Port('dover');
+      const ship = new Ship(dover);
+      const calis = new Port('calais');
+      ship.dock(calis);
+      expect(ship.currentPort.name).toBe('calais');
+    });
+    })
+  
