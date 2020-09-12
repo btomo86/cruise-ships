@@ -10,10 +10,22 @@ describe('Ship', () => {
     let itinerary;
   
     beforeEach(() => {
-      dover = new Port('Dover');
-      calais = new Port('Calais');
-      itinerary = new Itinerary([dover, calais]);
-      ship = new Ship(itinerary)
+      const port = {
+        removeShip: jest.fn(),
+        addShip: jest.fn()
+      }
+      dover = {
+        ...port,
+        name: 'Dover',
+        ships: []
+      };
+      calais = {
+        ...port,
+        name: 'calais',
+        ships: []
+      };
+      itinerary = new Itinerary([dover,calais]);
+      ship = new Ship(itinerary);
     });
   
     test("ship is a object", () => {
@@ -27,7 +39,7 @@ describe('Ship', () => {
     test('it can set sail', () => {
       ship.setSail();
       expect(ship.currentPort).toBeFalsy();
-      expect(dover.ships).not.toContain(ship);
+      expect(dover.removeShip).toHaveBeenCalledWith(ship);
     });
      
       
@@ -36,7 +48,7 @@ describe('Ship', () => {
       ship.setSail();
       ship.dock();
       expect(ship.currentPort).toBe(calais);
-      expect(calais.ships).toContain(ship);
+      expect(calais.addShip).toHaveBeenCalledWith(ship);
     });
     test('can\'t sail further than its ininerary', () => {
       ship.setSail();
@@ -45,7 +57,7 @@ describe('Ship', () => {
     })
     test('gets added to port on instantiation', () => {
       
-      expect(dover.ships).toContain(ship);
+      expect(dover.addShip).toHaveBeenCalledWith(ship);
     })
     })
   })
