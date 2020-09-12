@@ -18,13 +18,13 @@ describe('constructor', () => {
       expect(new Port('Dover').name).toBe('Dover');
   });
   test('can add a ship', () => {
-    const ship = {};
+    const ship = jest.fn();
     port.addShip(ship);
     expect(port.ships).toContain(ship);
   })
   test('can remove a Ship', () => {
-    const titanic = {};
-    const queenMary = {};
+    const titanic = jest.fn();
+    const queenMary = jest.fn();
     port.addShip(titanic);
     port.addShip(queenMary);
     port.removeShip(queenMary);
